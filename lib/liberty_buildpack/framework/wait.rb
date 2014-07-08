@@ -45,12 +45,12 @@ module LibertyBuildpack::Framework
       working_directory = File.join LibertyBuildpack::Diagnostics.get_diagnostic_directory(@app_dir), "wait"
       FileUtils.mkdir_p working_directory
 
-      puts "WAIT initializing with working_directory=#{working_directory} and running as pid=#{pid}"
+      puts "WAIT initializing with working_directory=#{working_directory}"
 
       command = "#{script} --processName java --sleep 5 --iters 10"
       @pid = spawn script, :chdir=>working_directory
 
-      puts "WAIT initialized with working_directory=#{working_directory} and running as pid=#{pid}"
+      puts "WAIT initialized with working_directory=#{working_directory} and running as pid=#{@pid}"
     end
 
     private
