@@ -1,12 +1,9 @@
 require 'liberty_buildpack/framework'
-require 'liberty_buildpack/repository/configured_item'
-require 'liberty_buildpack/util/format_duration'
-require 'liberty_buildpack/util'
-require 'liberty_buildpack/util/java_main_utils'
 
 require 'fileutils'
 
 module LibertyBuildpack::Framework
+
   # Encapsulates the detect, compile, and release functionality for enabling Icap Monitor Agent in
   # applications.
   class IBMWaitMonitor
@@ -32,6 +29,7 @@ module LibertyBuildpack::Framework
     #
     # @return [void]
     def compile
+       true
     end
 
     # here is i think where we need to spawn the data collector script?
@@ -51,6 +49,7 @@ module LibertyBuildpack::Framework
       @pid = spawn script, :chdir=>working_directory
 
       puts "WAIT initialized with working_directory=#{working_directory} and running as pid=#{@pid}"
+      true
     end
 
     private
