@@ -20,17 +20,19 @@ module LibertyBuildpack::Framework
       @app_dir = context[:app_dir]
       @vcap_services = context[:vcap_services]
       @vcap_application = context[:vcap_application]
+      puts "WAIT init #{@app_dir}"
     end
 
     def detect
-       true
+      puts "WAIT detect"
+      true
     end
 
     # i don't think we have anything to do here, yet. here is where we'd download the necessary files
     #
     # @return [void]
     def compile
-       true
+      puts "WAIT compile"
     end
 
     # here is i think where we need to spawn the data collector script?
