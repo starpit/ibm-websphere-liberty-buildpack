@@ -1,4 +1,5 @@
 require 'liberty_buildpack/framework'
+require 'liberty_buildpack/diagnostics/common'
 
 require 'fileutils'
 
@@ -36,6 +37,8 @@ module LibertyBuildpack::Framework
     #
     # @return [void]
     def release
+      puts "WAIT release start"
+
       resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
       script = File.join resources, "waitDataCollector.sh"
       FileUtils.chmod "u=rwx", script
