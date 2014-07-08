@@ -24,6 +24,10 @@ module LibertyBuildpack::Framework
       @vcap_application = context[:vcap_application]
     end
 
+    def detect
+       true
+    end
+
     # i don't think we have anything to do here, yet. here is where we'd download the necessary files
     #
     # @return [void]
