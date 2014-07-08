@@ -22,16 +22,15 @@ module LibertyBuildpack::Framework
       @vcap_application = context[:vcap_application]
     end
 
+    # @return [String] returns the service name?? this has to be a string, i think
     def detect
-      puts "WAIT detect"
-      true
+      ""
     end
 
     # i don't think we have anything to do here, yet. here is where we'd download the necessary files
     #
     # @return [void]
     def compile
-      puts "WAIT compile"
     end
 
     # here is i think where we need to spawn the data collector script?
@@ -40,7 +39,6 @@ module LibertyBuildpack::Framework
     def release
     end
     def release2
-      puts "WAIT release start"
       begin
 
       resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
@@ -50,12 +48,9 @@ module LibertyBuildpack::Framework
       working_directory = File.join LibertyBuildpack::Diagnostics.get_diagnostic_directory(@app_dir), "wait"
       FileUtils.mkdir_p working_directory
 
-      puts "WAIT initializing with working_directory=#{working_directory}"
-
       command = "#{script} --processName java --sleep 5 --iters 10"
       @pid = spawn script, :chdir=>working_directory
 
-      puts "WAIT initialized with working_directory=#{working_directory} and running as pid=#{@pid}"
       rescue Exception => e
          oops e
       end
