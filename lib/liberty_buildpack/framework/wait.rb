@@ -39,7 +39,10 @@ module LibertyBuildpack::Framework
     #
     # @return [void]
     def release
+    end
+    def release2
       puts "WAIT release start"
+      begin
 
       resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
       script = File.join resources, "waitDataCollector.sh"
@@ -54,11 +57,18 @@ module LibertyBuildpack::Framework
       @pid = spawn script, :chdir=>working_directory
 
       puts "WAIT initialized with working_directory=#{working_directory} and running as pid=#{@pid}"
+      rescue Exception => e
+         oops e
+      end
+
       true
     end
 
     private
        RESOURCES = '../../../resources/wait'.freeze
 
+       def oops(e)
+          puts e
+       end
   end
 end
