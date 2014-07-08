@@ -20,7 +20,6 @@ module LibertyBuildpack::Framework
       @app_dir = context[:app_dir]
       @vcap_services = context[:vcap_services]
       @vcap_application = context[:vcap_application]
-      puts "WAIT init #{@app_dir}"
     end
 
     def detect
