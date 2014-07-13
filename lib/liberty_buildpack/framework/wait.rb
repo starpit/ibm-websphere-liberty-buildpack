@@ -36,8 +36,6 @@ module LibertyBuildpack::Framework
 
       home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
       FileUtils.cp agent_jar, home_dir
-
-      puts "@@@@@@@@@@@@@@@@@ #{@agent_jar}"
     end
 
     # here is i think where we need to spawn the data collector script?
