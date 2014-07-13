@@ -75,7 +75,7 @@ module LibertyBuildpack::Framework
     end
 
     private
-       APPWATCH_HOME = '.Stack-Collector'.freeze
+       STACK_COLLECTOR_HOME = '.Stack-Collector'.freeze
 
        RESOURCES = '../../../resources/wait'.freeze
 
