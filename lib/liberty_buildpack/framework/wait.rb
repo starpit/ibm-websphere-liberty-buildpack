@@ -31,13 +31,21 @@ module LibertyBuildpack::Framework
     #
     # @return [void]
     def compile
+      resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
+      @jar_src = File.join resources, "stack-collector-agent.jar"
     end
 
     # here is i think where we need to spawn the data collector script?
     #
     # @return [void]
     def release
+      @droplet.java_opts
+        .add_javaagent(@jar_src) # @droplet.sandbox + jar_name)
+        .add_system_property('stack-collector.home', @droplet.sandbox)
+        .add_system_property('stack-collector.app_name', "'#{application_name}'")
+        .add_system_property('stack-collector.config.log_file_path', logs_dir)
     end
+
     def release2
       begin
 
