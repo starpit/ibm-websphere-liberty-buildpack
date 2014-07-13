@@ -41,7 +41,6 @@ module LibertyBuildpack::Framework
     def release
       javaagent = "-javaagent:#{@agent_jar}"
       @java_opts << javaagent
-      puts "@@@@@@@@@@@@@@@@@ #{@java_opts}"
     end
 
     def release2
