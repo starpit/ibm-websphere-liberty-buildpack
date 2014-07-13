@@ -32,14 +32,25 @@ module LibertyBuildpack::Framework
     # @return [void]
     def compile
       resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
-      @agent_jar = File.join resources, "stack-collector-agent.jar"
+      agent_jar = File.join resources, jar_name
+
+      home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
+      FileUtils.cp agent_jar, home_dir
+
+      puts "@@@@@@@@@@@@@@@@@ #{@agent_jar}"
     end
 
     # here is i think where we need to spawn the data collector script?
     #
     # @return [void]
     def release
-      javaagent = "-javaagent:#{@agent_jar}"
+      begin
+        main_class = LibertyBuildpack::Util::JavaMainUtils.main_class(@app_dir, @configuration)
+      rescue
+      main_class = nil
+      end
+
+      javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
       @java_opts << javaagent
     end
 
@@ -64,7 +75,13 @@ module LibertyBuildpack::Framework
     end
 
     private
+       APPWATCH_HOME = '.Stack-Collector'.freeze
+
        RESOURCES = '../../../resources/wait'.freeze
+
+       def jar_name
+          "stack-collector-agent.jar"
+       end
 
        def oops(e)
           puts e
