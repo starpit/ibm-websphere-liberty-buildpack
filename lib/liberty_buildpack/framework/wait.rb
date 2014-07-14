@@ -31,11 +31,16 @@ module LibertyBuildpack::Framework
     #
     # @return [void]
     def compile
-      resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
-      agent_jar = File.join resources, jar_name
+      begin
+         resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
+         agent_jar = File.join resources, jar_name
 
-      home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
-      FileUtils.cp agent_jar, home_dir
+         home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
+         FileUtils.cp agent_jar, home_dir
+
+       rescue Exception => e
+         oops e
+       end
     end
 
     # here is i think where we need to spawn the data collector script?
@@ -43,13 +48,18 @@ module LibertyBuildpack::Framework
     # @return [void]
     def release
       begin
-        main_class = LibertyBuildpack::Util::JavaMainUtils.main_class(@app_dir, @configuration)
-      rescue
-      main_class = nil
-      end
+        begin
+          main_class = LibertyBuildpack::Util::JavaMainUtils.main_class(@app_dir, @configuration)
+        rescue
+        main_class = nil
+        end
 
-      javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
-      @java_opts << javaagent
+        javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
+        @java_opts << javaagent
+
+       rescue Exception => e
+         oops e
+       end
     end
 
     def release2
@@ -82,7 +92,7 @@ module LibertyBuildpack::Framework
        end
 
        def oops(e)
-          puts e
+          fail "Error in stack-collector-agent #{e}"
        end
   end
 end
