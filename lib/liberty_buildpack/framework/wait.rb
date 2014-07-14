@@ -37,7 +37,7 @@ module LibertyBuildpack::Framework
          resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
          agent_jar = File.join resources, jar_name
          home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
-         print "agent_jar=#{agent_jar} home_dir=#{home_dir}\n"
+         print "agent_jar=#{agent_jar} home_dir=#{home_dir} java_opts=#{@java_opts}\n"
 
          system "rm -rf #{home_dir}"
          system "mkdir -p #{home_dir}"
@@ -61,8 +61,6 @@ module LibertyBuildpack::Framework
 
         javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
         @java_opts << javaagent
-
-        print "releasing stack-collector-agent #{@java_opts}\n"
 
        rescue Exception => e
          oops e
