@@ -35,13 +35,13 @@ module LibertyBuildpack::Framework
          print "Beginning stack-collector-agent compile\n"
 
          resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
-         agent_jar = File.join resources, jar_name
+         jars = File.join resources, "*.jar" #jar_name
          home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
-         print "agent_jar=#{agent_jar} home_dir=#{home_dir} java_opts=#{@java_opts}\n"
+         print "jars=#{jars} home_dir=#{home_dir} java_opts=#{@java_opts}\n"
 
          system "rm -rf #{home_dir}"
          system "mkdir -p #{home_dir}"
-         system "cp #{agent_jar} #{home_dir}"
+         system "cp #{jars} #{home_dir}"
 
        rescue Exception => e
          oops e
@@ -61,6 +61,8 @@ module LibertyBuildpack::Framework
 
         javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
         @java_opts << javaagent
+
+        @java_opts << "-Xbootclasspath ../../../../#{File.join STACK_COLLECTOR_HOME, prereq_jar}
 
        rescue Exception => e
          oops e
@@ -94,6 +96,10 @@ module LibertyBuildpack::Framework
 
        def jar_name
           "stack-collector-agent.jar"
+       end
+
+       def prereq_jar
+          "wink-1.2.1-incubating.jar"
        end
 
        def oops(e)
