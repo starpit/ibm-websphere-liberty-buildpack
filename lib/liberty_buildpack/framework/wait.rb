@@ -37,7 +37,7 @@ module LibertyBuildpack::Framework
          resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
          @agent_jar = File.join resources, jar_name
 
-         print "agent_jar=#{agent_jar}\n" # home_dir=#{home_dir}\n"
+         print "agent_jar=#{@agent_jar}\n" # home_dir=#{home_dir}\n"
 
          home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
 #         system "cp #{agent_jar} #{home_dir}"
