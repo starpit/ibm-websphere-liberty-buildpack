@@ -60,7 +60,7 @@ module LibertyBuildpack::Framework
         end
 
         javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
-        @java_opts << javaagent
+#        @java_opts << javaagent
 
        rescue Exception => e
          oops e
