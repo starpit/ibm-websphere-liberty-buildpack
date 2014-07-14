@@ -39,16 +39,16 @@ module LibertyBuildpack::Framework
          home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
          print "agent_jar=#{agent_jar} home_dir=#{home_dir}\n"
 
+         system "rm -rf #{home_dir}"
+         system "mkdir -p #{home_dir}"
          system "cp #{agent_jar} #{home_dir}"
-
-         @agent_jar = File.join home_dir, jar_name
 
        rescue Exception => e
          oops e
        end
     end
 
-    # here is i think where we need to spawn the data collector script?
+    # here is i think where we need to spawn the data collector
     #
     # @return [void]
     def release
@@ -59,9 +59,9 @@ module LibertyBuildpack::Framework
           main_class = nil
         end
 
-        #javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
-        javaagent = "-javaagent:#{@agent_jar}"
-#        @java_opts << javaagent
+#        print "releasing stack-collector-agent main_class=#{main_class} cwd=#{Dir.getwd}"
+        javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
+        @java_opts << javaagent
 
        rescue Exception => e
          oops e
