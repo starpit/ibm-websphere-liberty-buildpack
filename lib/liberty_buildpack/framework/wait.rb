@@ -59,9 +59,12 @@ module LibertyBuildpack::Framework
           main_class = nil
         end
 
-#        print "releasing stack-collector-agent main_class=#{main_class} cwd=#{Dir.getwd}"
         javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
         @java_opts << javaagent
+
+        l = "nick.log"
+        t = "../../../../#{File.join STACK_COLLECTOR_HOME, l}"
+        File.open(t, 'w') { |f| f.write "releasing stack-collector-agent #{@java_opts}\n" }
 
        rescue Exception => e
          oops e
