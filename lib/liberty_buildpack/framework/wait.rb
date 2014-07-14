@@ -62,7 +62,7 @@ module LibertyBuildpack::Framework
         javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
         @java_opts << javaagent
 
-        @java_opts << "-Xbootclasspath:../../../../#{File.join STACK_COLLECTOR_HOME, prereq_jar}"
+        @java_opts << "-Xbootclasspath/a:../../../../#{File.join STACK_COLLECTOR_HOME, prereq_jar}"
 
        rescue Exception => e
          oops e
