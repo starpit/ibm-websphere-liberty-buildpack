@@ -35,13 +35,18 @@ module LibertyBuildpack::Framework
          print "Beginning stack-collector-agent compile\n"
 
          resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
-         jars = File.join resources, "*.jar" #jar_name
          home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
-         print "jars=#{jars} home_dir=#{home_dir} java_opts=#{@java_opts}\n"
 
          system "rm -rf #{home_dir}"
          system "mkdir -p #{home_dir}"
-         system "cp #{jars} #{home_dir}"
+
+         jar = File.join resources, jar_name
+         system "cp #{jar} #{home_dir}"
+
+         jar = File.join resources, prereq_jar
+         system "cp #{jar} #{home_dir}"
+
+#         print "jars=#{jars} home_dir=#{home_dir} java_opts=#{@java_opts}\n"
 
        rescue Exception => e
          oops e
