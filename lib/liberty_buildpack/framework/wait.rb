@@ -1,7 +1,7 @@
 require 'liberty_buildpack/framework'
 require 'liberty_buildpack/diagnostics/common'
 
-require 'fileutils'
+#require 'fileutils'
 
 module LibertyBuildpack::Framework
 
@@ -35,13 +35,13 @@ module LibertyBuildpack::Framework
          print "Beginning stack-collector-agent compile\n"
 
          resources = File.expand_path(RESOURCES, File.dirname(__FILE__))
-         @agent_jar = File.join resources, jar_name
-
-         print "agent_jar=#{@agent_jar}\n" # home_dir=#{home_dir}\n"
-
+         agent_jar = File.join resources, jar_name
          home_dir = File.join @app_dir, STACK_COLLECTOR_HOME
-#         system "cp #{agent_jar} #{home_dir}"
+         print "agent_jar=#{agent_jar} home_dir=#{home_dir}\n"
 
+         system "cp #{agent_jar} #{home_dir}"
+
+         @agent_jar = File.join home_dir, jar_name
 
        rescue Exception => e
          oops e
@@ -56,7 +56,7 @@ module LibertyBuildpack::Framework
         begin
           main_class = LibertyBuildpack::Util::JavaMainUtils.main_class(@app_dir, @configuration)
         rescue
-        main_class = nil
+          main_class = nil
         end
 
         #javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
