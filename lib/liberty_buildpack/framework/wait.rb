@@ -43,8 +43,8 @@ module LibertyBuildpack::Framework
          jar = File.join resources, jar_name
          system "cp #{jar} #{home_dir}"
 
-         jar = File.join resources, prereq_jar
-         system "cp #{jar} #{home_dir}"
+#         jar = File.join resources, prereq_jar
+#         system "cp #{jar} #{home_dir}"
 
 #         print "jars=#{jars} home_dir=#{home_dir} java_opts=#{@java_opts}\n"
 
@@ -67,7 +67,7 @@ module LibertyBuildpack::Framework
         javaagent = main_class ? "-javaagent:#{File.join STACK_COLLECTOR_HOME, jar_name}" : "-javaagent:../../../../#{File.join STACK_COLLECTOR_HOME, jar_name}"
         @java_opts << javaagent
 
-        @java_opts << "-Xbootclasspath/a:../../../../#{File.join STACK_COLLECTOR_HOME, prereq_jar}"
+#        @java_opts << "-Xbootclasspath/a:../../../../#{File.join STACK_COLLECTOR_HOME, prereq_jar}"
 
        rescue Exception => e
          oops e
